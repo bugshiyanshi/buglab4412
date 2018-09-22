@@ -6,19 +6,18 @@
 #
 
 chmod 777 sdfuse_q -R
-cd ./sdfuse_q
-
 if [ -z $1 ]
-then
-	
+then		
 	echo ">>>Usage: please refer the manual:"
-    exit 0
+	exit 0
+
 else
 	echo "Fuse 4412 trustzone uboot file into SD card"
+	cd ./sdfuse_q
 	./sd_fusing_exynos4x12.sh $1 u-boot-itop-4412.bin
-fi
+	cd ..
 
-cd ..
+fi
 
 
 

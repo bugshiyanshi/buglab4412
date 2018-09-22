@@ -191,7 +191,7 @@ void PMIC_InitIp(void)
 		printf("S5M8767(VER4.0) \n");
        	 Is_TC4_Dvt = 2;
     }  
-	    else if(id == 0x3)
+	    else if(id == 0x3 || id == 0x15 )
     {
             
 		printf("S5M8767(VER5.0)\n");

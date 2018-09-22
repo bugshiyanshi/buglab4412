@@ -17,7 +17,7 @@ case "$1" in
 		echo make clean
 		make mrproper
 		;;
-	
+		
 	*)
 			
 		if [ ! -d $sec_path ]
@@ -30,7 +30,7 @@ case "$1" in
 		
 		if [ -z $1 ]
 		then
-			make itop_linux_config
+			make itop4412_linux_config
 		else
 			echo please input right parameter.
 			exit 0
@@ -51,17 +51,15 @@ case "$1" in
 		rm checksum_bl2_14k.bin
 		
 		cd $sec_path
-	
-	cat E4412_N.bl1.SCP2G.bin bl2.bin all00_padding.bin u-boot.bin tzsw_SMDK4412_SCP_2GB.bin > u-boot-itop-4412.bin	
-
+		# gernerate the uboot bin file support trust zone
+		cat E4412_N.bl1.SCP2G.bin bl2.bin all00_padding.bin u-boot.bin tzsw_SMDK4412_SCP_2GB.bin > u-boot-itop-4412.bin	
+		
 		mv u-boot-itop-4412.bin $ROOT_DIR
 	
 		rm checksum_bl2_14k.bin
-		#rm BL2.bin.signed.4412
-		#rm BL2.bin.signed.4212
 		rm u-boot.bin
 
-	echo 
+		echo 
 		echo 
 		;;
 		

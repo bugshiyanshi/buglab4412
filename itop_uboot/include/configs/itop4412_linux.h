@@ -30,7 +30,8 @@
  */
 #define CONFIG_S5PC210      1       /* in a SAMSUNG S5PC210 SoC */
 #define CONFIG_SMDKC210     1
-#define CONFIG_DEVICE_STRING    "TC4-"
+//#define CONFIG_DEVICE_STRING    "TC4-"
+#define CONFIG_DEVICE_STRING    "itop4412"
 
 #define CONFIG_EVT1     1       /* EVT1 */
 
@@ -251,7 +252,8 @@
  * Miscellaneous configurable options
  */
 #define CONFIG_SYS_LONGHELP                             /* undef to save memory         */
-#define CONFIG_SYS_PROMPT              "TC4 # "    /* Monitor Command Prompt       */
+//#define CONFIG_SYS_PROMPT              "TC4 # "    /* Monitor Command Prompt       */
+#define CONFIG_SYS_PROMPT              "itop4412 # "    /* Monitor Command Prompt       */
 
 #define CONFIG_SYS_CBSIZE		256		/* Console I/O Buffer Size	*/
 #define CONFIG_SYS_PBSIZE		384		/* Print Buffer Size */
@@ -348,7 +350,8 @@
  * SMDKC210 board specific data
  */
 
-#define CONFIG_IDENT_STRING	" for TC4 Android"
+//#define CONFIG_IDENT_STRING	" for TC4 Android"
+#define CONFIG_IDENT_STRING	" for itop linux"
 
 /* total memory required by uboot */
 #define CFG_UBOOT_SIZE		(2*1024*1024)

@@ -31,21 +31,50 @@ board/samsung/:
 脚本文件：rm_nuse_file.sh
 
 
-1.3 build_uboot.sh修改：
-
-1.4 Makefile 修改：
-编译器：CROSS_COMPILE = arm-none-linux-gnueabi-
-生成镜像：删除生成镜像信息--354行
-
-
-1.5 建立itop4412 目标板配置：
-Makefile 中添加：
-itop_4412_linux_config: unconfig
+*************************************初识u-boot移植实践*************************************
+1、创建目标板编译配置
+a、Makefile 添加编译规则
+itop4412_linux_config:  unconfig
     @$(MKCONFIG) $(@:_config=) arm arm_cortexa9 smdkc210 samsung s5pc210
-    
-include/configs/目录下创建板级配置文件：
-cp tc4_android.h  itop_4412_linux.h
 
-1.6 mkuboot 修改：修改烧录到sd卡的脚本
+b、在include/configs/添加板级配置头文件：
+   demo板是tc4，所以以tc4板级的配置头文件为基础：
+   cp tc4_android.h itop4412_linux.h
+
+2、修改过编译脚本build_uboot.sh:
+修改加密文件路径；
+生成目标镜像加密文件： cat E4412_N.bl1.SCP2G.bin bl2.bin all00_padding.bin u-boot.bin tzsw_SMDK4412_SCP_2GB.bin > u-boot-itop-4412.bin
+
+3、修改交叉编译工具所在的路劲：
+CROSS_COMPILE = arm-none-linux-gnueabi-
+
+4、修改烧录到SD卡脚本mkuboot
+
+5、修改打印信息显示的板子名称
+U-Boot 2010.03 (Sep 22 2018 - 11:12:28) for TC4 Android 
+将 ‘for TC4 Android’ 改成 ‘for itop linux’
+
+Board:  TC4- 修改为 Board:  itop4412
+
+
+include/config/itop4412_linux.h
+-#define CONFIG_DEVICE_STRING    "TC4-"
++#define CONFIG_DEVICE_STRING    "itop4412"
+
+-#define CONFIG_IDENT_STRING   " for TC4 Android"
++#define CONFIG_IDENT_STRING " for itop linux"
+
+
+6、适配电源管理芯片
+PMIC:   Pls check the i2c @ pmic, id = 21,error 添加id = 21 的适配，板子上使用的电源管理芯片是S5M8767
+在cpu/arm_cortexa9/s5pc210/pmic.c --> PMIC_InitIp()函数中，芯片为S5M8767中添加id = 21
+
+7、修改过u-boot命令提示符
+命令提示符：TC4 #  修改为：itop4412 # 
+
+-#define CONFIG_SYS_PROMPT              "TC4 # "   
++#define CONFIG_SYS_PROMPT              "itop4412 # "  
+
+*************************************初识u-boot移植实践*************************************
 
 

@@ -162,7 +162,6 @@ ifeq ($(ARCH),arm)
 #CROSS_COMPILE = /usr/local/arm/4.4.1-eabi-cortex-a8/usr/bin/arm-linux-
 #CROSS_COMPILE = /usr/local/arm/4.2.2-eabi/usr/bin/arm-linux-
 #CROSS_COMPILE = /opt/toolchains/arm-2009q3/bin/arm-none-linux-gnueabi-
-#CROSS_COMPILE = /usr/local/arm/arm-2009q3/bin/arm-none-linux-gnueabi-
 CROSS_COMPILE = arm-none-linux-gnueabi-
 endif
 ifeq ($(ARCH),i386)
@@ -351,7 +350,8 @@ $(obj)u-boot.bin:	$(obj)u-boot
 		@./sdfuse_q/add_padding
 		@rm bl2a*
 		
-	
+		@echo
+
 $(obj)u-boot.ldr:	$(obj)u-boot
 		$(CREATE_LDR_ENV)
 		$(LDR) -T $(CONFIG_BFIN_CPU) -c $@ $< $(LDR_FLAGS)
@@ -3248,8 +3248,9 @@ tc4_plus_android_config:	unconfig
 smdkv310_android_config:	unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm_cortexa9 smdkc210 samsung s5pc210
 
-itop_linux_config: unconfig
+itop4412_linux_config:	unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm_cortexa9 smdkc210 samsung s5pc210
+
 
 #########################################################################
 ## XScale Systems
