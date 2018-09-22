@@ -76,6 +76,5 @@ PMIC:   Pls check the i2c @ pmic, id = 21,error 添加id = 21 的适配，板子
 -#define CONFIG_SYS_PROMPT              "TC4 # "   
 +#define CONFIG_SYS_PROMPT              "itop4412 # "  
 
-*************************************初识u-boot移植实践*************************************
 
 
