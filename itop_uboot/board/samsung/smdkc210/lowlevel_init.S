@@ -819,6 +819,7 @@ mmu_table:
 	.word 0x00000000
 	.endr
 
+
 	.set __base,0x400
 	// 512MB for SDRAM with cacheable
 	.rept 0xE00 - 0xC00

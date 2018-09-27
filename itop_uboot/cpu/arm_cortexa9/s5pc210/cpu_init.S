@@ -171,12 +171,14 @@ mem_ctrl_asm_init:
 
 	ldr	r1, =0x0FFF30CA//0x0FFF30da				
 	str	r1, [r0, #DMC_CONCONTROL]
-	ldr	r1, =0x00202500				
+	/* modify 20180927 */
+	ldr	r1, =SDRAM_DMC_MEMCONTROL_VAL  // old value:0x00202500	
 	str	r1, [r0, #DMC_MEMCONTROL]
 	//ldr	r1, =0x20f01223				
-	ldr	r1, =0x40C01323
+	ldr	r1, =SDRAM_DMC0_MEMCONFIG0_VAL // old value 0x40C01323
 	str	r1, [r0, #DMC_MEMCONFIG0]
 
+	/* modify end */
 
 	/*liyang 20110822 Interleave on 512M*/
 	ldr	r1, =0x8000001D				
@@ -186,7 +188,8 @@ mem_ctrl_asm_init:
 	ldr	r1, =0xff000000			
 	str	r1, [r0, #DMC_PRECHCONFIG]
 
-	ldr	r1, =0x0000005D    				
+	// modify 20180927 
+	ldr	r1, = SDRAM_DMC_TIMINGAREF_VAL // old value 0x0000005D    				
 	str	r1, [r0, #DMC_TIMINGAREF] @TimingAref
 
 #ifdef DRAM_CLK_200
@@ -302,11 +305,13 @@ mem_ctrl_asm_init:
 
 	ldr	r1, =0x0FFF30CA//0x0FFF30da	
 	str	r1, [r0, #DMC_CONCONTROL]
-	ldr	r1, =0x00202500				
+	/* modify 20180927 */
+	ldr	r1, =SDRAM_DMC_MEMCONTROL_VAL //old value 0x00202500				
 	str	r1, [r0, #DMC_MEMCONTROL]
 	//ldr	r1, =0x20f01223
-	ldr	r1, =0x40C01323
+	ldr	r1, =SDRAM_DMC1_MEMCONFIG0_VAL // old value 0x40C01323
 	str	r1, [r0, #DMC_MEMCONFIG0]
+	/* modify end */
 
 	/*liyang 20110822 Interleave on 512M*/
 	ldr	r1, =0x8000001D				
@@ -317,7 +322,8 @@ mem_ctrl_asm_init:
 	ldr	r1, =0xff000000			
 	str	r1, [r0, #DMC_PRECHCONFIG]
 
-	ldr	r1, =0x0000005D    				
+	// modify 20180927
+	ldr	r1, =SDRAM_DMC_TIMINGAREF_VAL // old value 0x0000005D    				
 	str	r1, [r0, #DMC_TIMINGAREF] @TimingAref
 
 #ifdef DRAM_CLK_200

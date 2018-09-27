@@ -290,6 +290,21 @@
 #define CONFIG_STACKSIZE_FIQ	(4*1024)	/* FIQ stack */
 #endif
 
+
+/****************************************************
+*	add by buglab 20180927
+*****************************************************/
+#define SDRAM_DMC_MEMCONTROL_VAL   		0x00302600 	/* bl is 0x3;mem_type is 0x6  */
+//#define SDRAM_DMC_DMC_IvControl_VAL		0x8000001D	/* iv_size:512 M byte*/
+#define SDRAM_DMC_TIMINGAREF_VAL		0x00000C30	/* dram clock:400MHz*/
+#define SDRAM_DMC0_MEMCONFIG0_VAL   	0x40E01323	/* base:0x40,mask:E0(off:0~0x1fffffff),col:10bit,row:14bit,bank:8 */
+#define SDRAM_DMC1_MEMCONFIG0_VAL   	0xA0E01323	/* base:0xA0,mask:E0(off:0~0x10000000),col:10bit,row:14bit,bank:8 */
+
+/***************************************************
+* <<end add 
+***************************************************/
+
+
 // SMDKC210 POP-A(512MB)   : 2 banks
 // SMDKC210 POP-B(1024MB)  : 4 banks
 #define CONFIG_NR_DRAM_BANKS    8          	/* 8 banks of DRAM at maximum */
