@@ -36,6 +36,7 @@ board/samsung/:
 1、创建目标板编译配置
 
 a、Makefile 添加编译规则
+
 itop4412_linux_config:  unconfig
     @$(MKCONFIG) $(@:_config=) arm arm_cortexa9 smdkc210 samsung s5pc210
 
@@ -45,7 +46,9 @@ b、在include/configs/添加板级配置头文件：
 
 
 2、修改过编译脚本build_uboot.sh:
+
 修改加密文件路径；
+
 生成目标镜像加密文件： cat E4412_N.bl1.SCP2G.bin bl2.bin all00_padding.bin u-boot.bin tzsw_SMDK4412_SCP_2GB.bin > u-boot-itop-4412.bin
 
 
@@ -89,6 +92,7 @@ PMIC:   Pls check the i2c @ pmic, id = 21,error 添加id = 21 的适配，板子
 
 命令提示符：TC4 #  修改为：itop4412 # 
 
+<<<<<<< HEAD
 -#define CONFIG_SYS_PROMPT              "TC4 # " 
 
 +#define CONFIG_SYS_PROMPT              "itop4412 # " 
@@ -105,6 +109,11 @@ b、根据开发板所使用的内存设备，配置MEMCONFIG0寄存器
 c、根据时钟频率配置TIMINGAREF寄存器
 
 
+=======
+-#define CONFIG_SYS_PROMPT              "TC4 # "   
+
++#define CONFIG_SYS_PROMPT              "itop4412 # "  
+>>>>>>> master
 
 
 
