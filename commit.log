@@ -80,6 +80,60 @@ v0.3 2018/09/27
     +   ldr	r1, =SDRAM_DMC_TIMINGAREF_VAL 				
         str	r1, [r0, #DMC_TIMINGAREF]
 
+v0.4 2018/09/28
+     a、增加访问DMC-1上内存的虚拟地址映射，将虚拟地址0x6000_0000 ~ 0x7FFF_FFFF 映射到DMC-1内存的0xA000_0000起连续的512MB的空间
+　　　　　     //board/samsung/smdkc210/lowlevel_init.S:mmu_table
+    +     .set __base,0xa00
+    +     // 512MB for SDRAM with cacheable
+    +     .rept 0x800 - 0x600
+    +     FL_SECTION_ENTRY __base,3,0,1,1
+    +     .set __base,__base+1
+    +     .endr
+	
+          // access is not allowed.
+    -     .rept 0xc00 - 0x600
+    +     .rept 0xc00 - 0x800
+          .word 0x00000000
+          .endr
+　　　　　
+    　　b、修改每个的bank的大小为128MB
+          //include/configs/itop4412_linux.h
+    -     #define SDRAM_BANK_SIZE         0x10000000	/* each bank has 256 MB */
+    +     #define SDRAM_BANK_SIZE         0x10000000/2	/* each bank has 128 MB */
+
+      c、修改打印SDRAM的内存大小
+　　　　　　　　//lib_arm/board.c:display_dram_config
+   　　　　　static int display_dram_config (void)
+　　　　　　　　{
+　　　　　　　　　　　　……
+	　　　　for (i=0; i<CONFIG_NR_DRAM_BANKS; i++) {
+		size += gd->bd->bi_dram[i].size;
+	　　　　}
+
+　　　　+　　　　　　　　/* modify 20180928 */
+　　　　+　　　　　　　#ifdef CONFIG_TRUSTZONE
+    +     　　　　　　　　　size += 0x100000;
+　　　　+　　　　　　　#endif
+　　　　+　　　　　　　/*modify end */
+
+	　　　　puts("DRAM:	");
+	　　　　……
+　　　　　　　　}
+
+     d、unrecognised EXT_CSD structure version 7
+　　　　　   //drivers/mmc/mmc.c:mmc_read_ext_csd
+        static int mmc_read_ext_csd(struct mmc *host)
+        {
+            ……
+        -   if (ext_csd_struct > 5) {
+	+   if (ext_csd_struct > 7) {
+		printf("unrecognised EXT_CSD structure "
+			"version %d\n", ext_csd_struct);
+		err = -1;
+		goto out;
+	     }
+            ……
+        }
 
 
 
