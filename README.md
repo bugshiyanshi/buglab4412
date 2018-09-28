@@ -89,9 +89,22 @@ PMIC:   Pls check the i2c @ pmic, id = 21,error 添加id = 21 的适配，板子
 
 命令提示符：TC4 #  修改为：itop4412 # 
 
--#define CONFIG_SYS_PROMPT              "TC4 # "   
+-#define CONFIG_SYS_PROMPT              "TC4 # " 
 
-+#define CONFIG_SYS_PROMPT              "itop4412 # "  
++#define CONFIG_SYS_PROMPT              "itop4412 # " 
+
+
+ddr3移植
+
+1、ddr3初始化：
+
+a、修改MEMCONTROL寄存器的值，DMC-0 上内存的起始地址配置为0x4000_0000，DMC-1　上内存的起始地址配置为A000_0000
+
+b、根据开发板所使用的内存设备，配置MEMCONFIG0寄存器
+
+c、根据时钟频率配置TIMINGAREF寄存器
+
+
 
 
 

@@ -1,0 +1,100 @@
+v0.1 2018/08/29
+　　　原始版本,添加rm_nuse_file.sh脚本删除无关文件
+
+v0.2 2018/09/22
+     初识u-boot移植实践：
+　　　　　a、添加板子的编译规则
+　　　　　　　　itop4412_linux_config:  unconfig
+    　　　　	@$(MKCONFIG) $(@:_config=) arm arm_cortexa9 smdkc210 samsung s5pc210
+
+　　　　　b、在include/configs/添加板级配置头文件，demo板是tc4，所以以tc4板级的配置头文件为基础：
+   　　　　　cp tc4_android.h itop4412_linux.h
+　　　　　　　　
+　　　  c、修改板子显示名称、u-boot命令解析控制台提示符
+	“U-Boot 2010.03 (Sep 22 2018 - 11:12:28) for TC4 Android”,将 ‘for TC4 Android’ 改成 ‘for itop linux’
+	Board:  TC4- 修改为 Board:  itop4412
+	命令提示符：TC4 #  修改为：itop4412 # 
+
+	//include/config/itop4412_linux.h
+	-#define CONFIG_DEVICE_STRING    "TC4-"
+	+#define CONFIG_DEVICE_STRING    "itop4412"
+
+	-#define CONFIG_IDENT_STRING   " for TC4 Android"
+	+#define CONFIG_IDENT_STRING " for itop linux"
+
+
+
+	-#define CONFIG_SYS_PROMPT              "TC4 # "   
+	+#define CONFIG_SYS_PROMPT              "itop4412 # "
+ 
+　　　　　d、适配电源管理芯片S5M8767
+	PMIC: Pls check the i2c @ pmic, id = 21,error 添加id = 21 的适配，板子上使用的电源管理芯片是S5M8767
+	// cpu/arm_cortexa9/s5pc210/pmic.c
+	void PMIC_InitIp(void)
+	{
+		.....
+		else if( id == 0x3
+		+	　|| (0x15 == id)
+			)
+		{
+			printf("S5M8767(VER5.0)\n");
+			Is_TC4_Dvt = 2;
+		}
+		......
+	}
+
+v0.3 2018/09/27
+     初始化DDR3移植
+　　　　　DMC-0 和　DMC-1　上分别接了512MB　32位的内存，DMC-0 上的AXI 基地址地址是0x4000_0000 ，DMC-1　上的AXI 基地址是0xA000_0000
+　　　配置寄存器MEMCONTROL、MEMCONFIG0、TIMINGAREF
+　　　　　//include/configs/itop4412_linux.h
+     +    #define SDRAM_DMC_MEMCONTROL_VAL   0x00302600    /* bl is 0x3;mem_type is 0x6  */
+     +    #define SDRAM_DMC_TIMINGAREF_VAL	0x00000C30    /* dram clock:400MHz*/
+     +    #define SDRAM_DMC0_MEMCONFIG0_VAL  0x40E01323    /* base:0x40,mask:E0(off:0~0x1fffffff),col:10bit,row:14bit,bank:8 */
+     +    #define SDRAM_DMC1_MEMCONFIG0_VAL  0xA0E01323    /* base:0xA0,mask:E0(off:0~0x10000000),col:10bit,row:14bit,bank:8 */
+
+    //cpu/arm_cortexa9/s5pc210/cpu_init.S:mem_ctrl_asm_init
+    // DREX0
+    -   ldr	r1, =0x00202500	
+    +   ldr	r1, =SDRAM_DMC_MEMCONTROL_VAL  
+        str	r1, [r0, #DMC_MEMCONTROL]
+	
+    -   ldr	r1, =0x40C01323
+    +   ldr	r1, =SDRAM_DMC0_MEMCONFIG0_VAL 
+        str	r1, [r0, #DMC_MEMCONFIG0]
+
+    -   ldr	r1, =0x0000005D  
+    +   ldr	r1, =SDRAM_DMC_TIMINGAREF_VAL 				
+        str	r1, [r0, #DMC_TIMINGAREF]
+
+    // DREX1
+    -   ldr	r1, =0x00202500	
+    +   ldr	r1, =SDRAM_DMC_MEMCONTROL_VAL  
+        str	r1, [r0, #DMC_MEMCONTROL]
+	
+    -   ldr	r1, =0x40C01323
+    +   ldr	r1, =SDRAM_DMC1_MEMCONFIG0_VAL 
+        str	r1, [r0, #DMC_MEMCONFIG0]
+
+    -   ldr	r1, =0x0000005D  
+    +   ldr	r1, =SDRAM_DMC_TIMINGAREF_VAL 				
+        str	r1, [r0, #DMC_TIMINGAREF]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

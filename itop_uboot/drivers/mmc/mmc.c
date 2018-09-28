@@ -853,14 +853,15 @@ static int mmc_read_ext_csd(struct mmc *host)
 
 	ext_csd_struct = ext_csd[EXT_CSD_REV];
 	host->ext_csd.boot_size_multi = ext_csd[BOOT_SIZE_MULTI];//mj
-
-	if (ext_csd_struct > 5) {
+	/* modify 20180928 */
+	//if (ext_csd_struct > 5) {
+	if (ext_csd_struct > 7) {
 		printf("unrecognised EXT_CSD structure "
 			"version %d\n", ext_csd_struct);
 		err = -1;
 		goto out;
 	}
-
+	/* modify end */
 
 	if (ext_csd_struct >= 2) {
 		host->ext_csd.sectors =

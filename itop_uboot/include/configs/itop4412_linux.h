@@ -308,7 +308,7 @@
 // SMDKC210 POP-A(512MB)   : 2 banks
 // SMDKC210 POP-B(1024MB)  : 4 banks
 #define CONFIG_NR_DRAM_BANKS    8          	/* 8 banks of DRAM at maximum */
-#define SDRAM_BANK_SIZE         0x10000000	/* each bank has 256 MB */
+#define SDRAM_BANK_SIZE         0x10000000/2	/* each bank has 128 MB */
 #define PHYS_SDRAM_1            (unsigned long)MEMORY_BASE_ADDRESS /* SDRAM Bank #1 */
 #define PHYS_SDRAM_1_SIZE       (unsigned long)SDRAM_BANK_SIZE
 #define PHYS_SDRAM_2            (unsigned long)(MEMORY_BASE_ADDRESS + SDRAM_BANK_SIZE) /* SDRAM Bank #2 */

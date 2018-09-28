@@ -814,11 +814,22 @@ mmu_table:
 	.set __base,__base+1
 	.endr
 
+	/* modify 20180928 */
+
+	//add 
+	.set __base,0xa00
+	// 512MB for SDRAM with cacheable
+	.rept 0x800 - 0x600
+	FL_SECTION_ENTRY __base,3,0,1,1
+	.set __base,__base+1
+	.endr
+	
 	// access is not allowed.
-	.rept 0xc00 - 0x600
+	//.rept 0xc00 - 0x600
+	.rept 0xc00 - 0x800
 	.word 0x00000000
 	.endr
-
+	/* modify end */
 
 	.set __base,0x400
 	// 512MB for SDRAM with cacheable

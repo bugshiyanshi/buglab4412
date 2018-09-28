@@ -449,9 +449,11 @@ static int display_dram_config (void)
 		size += gd->bd->bi_dram[i].size;
 	}
 
-//#ifdef CONFIG_TRUSTZONE
-	//size += 0x100000;
-//#endif
+/* modify 20180928 */
+#ifdef CONFIG_TRUSTZONE
+	size += 0x100000;
+#endif
+/*modify end */
 
 	puts("DRAM:	");
 	print_size(size, "\n");
