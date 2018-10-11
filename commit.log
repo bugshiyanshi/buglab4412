@@ -136,7 +136,11 @@ v0.4 2018/09/28
         }
 
 
-
+v1.0 2018/10/11
+   添加bootargs环境变量，通过bootargs变量配置根文件系统挂载路劲、串口配置
+   // include/configs/itop4412_linux.h
+   +  #define CONFIG_BOOTARGS \
+      “root=/dev/mmcblk0p2 rootfstype=ext4  init=/linuxrc console=ttySAC2,115200”
 
 
 
