@@ -476,6 +476,11 @@
 #define CONFIG_MTDPARTITION	"80000 400000 3000000"
 #define CONFIG_BOOTDELAY	3
 
+/* modify boot kernel targs */
+#define CONFIG_BOOTARGS \
+	"root=/dev/mmcblk0p2 rootfstype=ext4 init=/linuxrc console=ttySAC2,115200"
+/* modify end */
+
 //#if defined (CONFIG_CMD_MOVINAND)
 //#define CONFIG_BOOTCOMMAND      "movi read kernel 40008000;movi read rootfs 40800000 100000;bootm 40008000 40800000"
 //#else
